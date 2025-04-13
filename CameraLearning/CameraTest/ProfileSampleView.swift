@@ -14,9 +14,22 @@ struct ProfileSampleView: View {
     var body: some View {
         VStack {
             //iconを表示
-            Image(uiImage: vm.icon ?? UIImage(systemName: "person.crop.circle")!)
-                .resizable()
-                .frame(width: 100, height: 100)
+            if let image = vm.icon {
+                Image(uiImage: image)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 100, height: 100)
+                    .clipShape(Circle())
+            } else {
+                Circle()
+                    .fill(Color.clear)
+                    .frame(width: 100)
+                    .overlay(
+                        Circle()
+                            .stroke(Color.black,lineWidth: 1)
+                    )
+            }
+            
             Button {
                 //カメラ起動
                 cmvm.showDialog = true
@@ -49,7 +62,7 @@ struct ProfileSampleView: View {
                 .ignoresSafeArea()
         }
         .sheet(isPresented: $cmvm.showLibrary) {
-            
+            PhotoLibraryTestView(icon: $vm.icon)
         }
     }
 }
