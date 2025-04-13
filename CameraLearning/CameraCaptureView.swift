@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CameraCaptureView: UIViewControllerRepresentable {
     @Binding var image: UIImage? //储存拍摄的图片
-    @Environment(\.presentationMode) private var presentationMode //控制View的展示和关闭
+    @Environment(\.presentationMode) private var presentationMode //控制Vciew的展示和关闭
 
     func makeUIViewController(context: Context) -> UIImagePickerController {
         let picker = UIImagePickerController()
