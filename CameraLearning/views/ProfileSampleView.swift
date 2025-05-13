@@ -10,6 +10,8 @@ import SwiftUI
 struct ProfileSampleView: View {
     @StateObject private var vm = UserModel()
     @StateObject private var cmvm = CameraViewModel()
+    @State var isShowActivity = false
+    @State var captureImage: UIImage
     
     var body: some View {
         VStack {
@@ -57,12 +59,29 @@ struct ProfileSampleView: View {
                 cmvm.showDialog = false
             }
         }
+        
+        Button { //AirDropでシェアアクション
+            if let icon = vm.icon {
+                captureImage = icon
+                isShowActivity = true
+            }
+        } label: {
+            Text("アイコンをシェア")
+                .foregroundColor(.white)
+                .padding()
+                .background(Color.blue)
+                .cornerRadius(10)
+        }
+        .padding()
         .fullScreenCover(isPresented: $cmvm.showCamera) {
             CameraTestView(icon: $vm.icon)
                 .ignoresSafeArea()
         }
         .sheet(isPresented: $cmvm.showLibrary) {
             PhotoLibraryTestView(icon: $vm.icon)
+        }
+        .sheet(isPresented: $isShowActivity) {
+            ActivityView(shareItem: [captureImage])
         }
     }
 }
@@ -99,5 +118,5 @@ class UserModel:ObservableObject {
 }
 
 #Preview {
-    ProfileSampleView()
+    ProfileSampleView(captureImage: UIImage())
 }

@@ -11,7 +11,7 @@ import SwiftUI
 struct CameraLearningApp: App {
     var body: some Scene {
         WindowGroup {
-            ProfileSampleView()
+            ProfileSampleView(captureImage: UIImage())
         }
     }
 }
